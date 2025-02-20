@@ -46,3 +46,26 @@ Os caracteres de especificação de conversão também são usados no primeiro a
 | `%u` | Lê um inteiro sem sinal |
 | `%[]` | Busca por um conjunto de caracteres |
 
+Assim como `printf` admite modificadores de formato, `scanf` também os aceita. Um número colocado entre `%` e o especificador, por exemplo, representa a largura máxima de campo. 
+
+Pode-se também informar para a função ler um campo de entrada sem atribuí-lo a nenhuma variável com o modificador `*` precedendo o especificador, por exemplo `scanf("%d%*c%d", &x, &y)`. Um caractere, entre dois inteiros, será ignorado.
+
+## Funções de alocação dinâmica de memória em C
+
+Usamos alocação dinâmica quando um programa precisa de quantidades de armazenamento variáveis, decididas durante a execução. A memória alocada dinamicamente fica numa região chamada *heap* que fica entre o programa, a área de armazenamento permanente e a pilha (onde as variáveis locais são guardadas).
+
+Em C, a alocação dinâmica é feita usando as funções `malloc()` e `free()`. A primeira reserva uma quantidade de memória e a segunda a libera, devolvendo ao sistema. Ambas estão declaradas no arquivo de cabeçalho `stdlib.h`. `malloc()` recebe como argumento a quantidade de bytes que se deseja alocar, e retorna um ponteiro para a primeira posição da região alocada. Ex:
+
+```
+char *p;
+p = malloc(1000); /* obtém 1000 bytes */
+```
+
+Normalmente usamos `sizeof` para assegurar a portabilidade:
+
+```
+int *p;
+p = malloc(50*sizeof(int)); /* aloca espaço para 50 inteiros */
+```
+
+Após o uso devemos liberar a memória com `free(p);`.
