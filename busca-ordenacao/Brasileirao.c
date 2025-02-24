@@ -9,12 +9,14 @@ struct equipe
     unsigned vitorias;
     unsigned empates;
     unsigned derrotas;
+    unsigned saldo;
     unsigned gols_pro;
     unsigned gols_contra;
 };
 
 void RecebeEquipes(struct equipe*, unsigned);
 void RecebePartidas(struct equipe*, unsigned);
+void OrdenaEquipes(struct equipe*, unsigned);
 void ExibeEquipes(struct equipe*, unsigned);
 
 void main(void)
@@ -39,11 +41,47 @@ void main(void)
     /* Realiza procedimento. */
     RecebeEquipes(ptr, qnt_equipes);
     RecebePartidas(ptr, qnt_equipes);
-    // OrdenaEquipes(ptr, qnt_equipes);
+    OrdenaEquipes(ptr, qnt_equipes);
     ExibeEquipes(ptr, qnt_equipes);
 
     /* Libera memória alocada. */
     free(ptr);
+}
+
+/* Ordena as equipes segundo seus pontos, com número de vitórias, saldo de gols e gols pró como
+   critérios de desempate. Faz isso aos moldes do algoritmo Bubble Sort. */
+void OrdenaEquipes(struct equipe *ptr, unsigned qnt_equipes)
+{
+    struct equipe aux;
+    int i, j;
+    for (i = 0; i < qnt_equipes-1; i++)
+    {
+        for (j = 0; j < qnt_equipes-i-1; j++)
+        {
+            if /* condições com critérios de desempate */
+            (   
+                (   /* critério primário */
+                    ptr[j].pontos < ptr[j+1].pontos
+                ) || 
+                (   /* critério secundário */
+                    ptr[j].pontos == ptr[j+1].pontos && ptr[j].vitorias < ptr[j+1].vitorias 
+                ) || 
+                (   /* critério terciário */
+                    ptr[j].pontos == ptr[j+1].pontos && ptr[j].vitorias == ptr[j+1].vitorias && 
+                    ptr[j].saldo < ptr[j+1].saldo
+                ) ||
+                (   /* critério último */
+                    ptr[j].pontos == ptr[j+1].pontos && ptr[j].vitorias == ptr[j+1].vitorias && 
+                    ptr[j].saldo == ptr[j+1].saldo && ptr[j].gols_pro < ptr[j+1].gols_pro
+                )
+            )
+            {   /* então realiza a troca de posições */
+                aux = ptr[j];
+                ptr[j] = ptr[j+1];
+                ptr[j+1] = aux;
+            } 
+        }
+    }
 }
 
 void RecebePartidas(struct equipe *ptr, unsigned qnt_equipes)
@@ -73,6 +111,11 @@ void RecebePartidas(struct equipe *ptr, unsigned qnt_equipes)
             }
         }
     }
+
+    /* Calcula saldo de gols de cada equipe. */
+    int i = 0;
+    for (; i < qnt_equipes; i++) 
+        ptr[i].saldo = ptr[i].gols_pro - ptr[i].gols_contra;
 }
 
 void ExibeEquipes(struct equipe *ptr, unsigned qnt_equipes)
@@ -99,7 +142,7 @@ void ExibeEquipes(struct equipe *ptr, unsigned qnt_equipes)
     for (i = 0; i < qnt_equipes; i++)
     {
         printf("%s %u %u %u %u ", ptr[i].nome, ptr[i].pontos, ptr[i].vitorias, ptr[i].empates, ptr[i].derrotas);
-        printf("%d %u %u\n", (ptr[i].gols_pro-ptr[i].gols_contra), ptr[i].gols_pro, ptr[i].gols_contra);
+        printf("%d %u %u\n", ptr[i].saldo, ptr[i].gols_pro, ptr[i].gols_contra);
     }
 }
 
