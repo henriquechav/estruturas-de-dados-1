@@ -18,7 +18,7 @@ void main(void)
     /* Aloca memória para cada string do vetor. */
     int i = 0;
     for (; i < tamanho; i++)
-        vet[i] = (char*)malloc(40*sizeof(char));
+        vet[i] = (char*)malloc(80*sizeof(char));
 
     RecebeVetor(vet, tamanho);
     BubbleSort(vet, tamanho);
