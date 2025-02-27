@@ -22,6 +22,9 @@ int main(void)
     Intercala(s1, s2, sr);
     printf("%s\n", sr);
 
+    free(s1);
+    free(s2);
+    free(sr);
     return 0;
 }
 
@@ -32,14 +35,13 @@ void Intercala(char *s1, char *s2, char *sr)
     int i = 0, a = 0, b = 0;
     while (s1[a] || s2[b]) {
         /* Caso uma das strings acabe, preenche sr com o resto da outra. */
-        if (!s1[a]) {
+        if (!s1[a])
             for (; s2[b]; b++, i++)
-                sr[i] = s2[b]; 
-        }
-        if (!s2[b]) {
+                sr[i] = s2[b];
+
+        if (!s2[b])
             for (; s1[a]; a++, i++)
-                sr[i] = s1[a]; 
-        }
+                sr[i] = s1[a];
 
         /* Sempre adiciona o menor elemento a sr, mantendo a ordem. */
         if (s1[a] <= s2[b]) {
