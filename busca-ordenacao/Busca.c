@@ -16,5 +16,10 @@ int Busca(int x, int v[], int n)
     return k;
 }
 
-/* OBS: o algoritmo funciona corretamente mesmo quando o vetor está vazio, ou 
- * seja, quando n vale 0. */
+/* Versão recursiva. */
+int BuscaR(int x, int v[], int n)
+{
+    if (n == 0) return -1;
+    if (x == v[n-1]) return n - 1;
+    return BuscaR(x, v, n - 1);
+}

@@ -13,3 +13,20 @@ void BubbleSort(int v[], int n)
         }
     }
 }
+
+/* Versão recursiva. */
+void BubbleSortR(int v[], int n)
+{
+    if (n == 1) return;
+
+    int i, aux;
+    for (i = 0; i < n - 1; i++) {
+        if (v[i] > v[i+1]) {
+            aux = v[i+1];
+            v[i+1] = v[i];
+            v[i] = aux;
+        }
+    }
+    
+    BubbleSortR(v, n - 1);
+}

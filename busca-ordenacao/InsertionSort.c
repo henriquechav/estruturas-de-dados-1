@@ -15,3 +15,19 @@ void InsertionSort(int v[], int n)
         }
     }
 }
+
+/* Versão recursiva. */
+void InsertionSortR(int v[], int n)
+{
+    if (n <= 1) return;
+    InsertionSortR(v, n - 1);
+
+    int i, chave;
+    chave = v[n-1];
+    i = n - 2;
+    while (i >= 0 && v[i] > chave) {
+        v[i+1] = v[i];
+        i--;
+    }
+    v[i+1] = chave;
+}
