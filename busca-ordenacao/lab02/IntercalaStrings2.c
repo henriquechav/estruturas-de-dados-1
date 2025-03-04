@@ -1,4 +1,4 @@
-// Solução para o problema 99.
+// Solução para o problema 99. (Ainda considerado errado pelo juiz BOCA)
 #include <stdio.h>
 #include <stdlib.h>
 
