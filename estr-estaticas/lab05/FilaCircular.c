@@ -1,8 +1,8 @@
-/* Solução para o problema 125. */
+/* Solução para o problema 129. */
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct
+typedef struct 
 {
     int *itens;
     int tamanho;
@@ -11,8 +11,8 @@ typedef struct
 } tFila;
 
 tFila* criar(int);
-int vazia(tFila*);
 int cheia(tFila*);
+int vazia(tFila*);
 void enfileirar(tFila*, int);
 void desenfileirar(tFila*);
 
@@ -44,40 +44,33 @@ tFila* criar(int n)
     tFila *fila = (tFila*)malloc(sizeof(tFila));
     fila->itens = (int*)malloc(n*sizeof(int));
     fila->tamanho = n;
-    fila->inicio = -1;
-    fila->final = -1;
+    fila->inicio = 0;
+    fila->final = 0;
     return fila;
 }
 
-int vazia(tFila *fila)
+int cheia(tFila *f)
 {
-    return (fila->inicio == -1 && fila->final == -1) 
-            || fila->inicio > fila->final;
+    return (f->final + 1) % f->tamanho == f->inicio;
 }
 
-int cheia(tFila *fila)
+int vazia(tFila *f)
 {
-    return fila->final == fila->tamanho - 1;
+    return f->inicio == f->final;
 }
 
-void enfileirar(tFila *fila, int novo)
+void enfileirar(tFila *f, int novo)
 {
-    if (!cheia(fila)) {
-        if (fila->inicio == -1)
-            fila->inicio++;
-        fila->itens[++fila->final] = novo;
+    if (!cheia(f)) {
+        f->itens[f->final] = novo;
+        f->final = (f->final + 1) % f->tamanho;
     }
 }
 
-void desenfileirar(tFila *fila)
+void desenfileirar(tFila *f)
 {
-    if (!vazia(fila)) {
-        printf("%d\n", fila->itens[fila->inicio]);
-        if (fila->inicio == fila->final) {
-            fila->inicio = -1;
-            fila->final = -1;
-        } else {
-            fila->inicio++;
-        }
+    if (!vazia(f)) {
+        printf("%d\n", f->itens[f->inicio]);
+        f->inicio = (f->inicio + 1) % f->tamanho;
     }
 }

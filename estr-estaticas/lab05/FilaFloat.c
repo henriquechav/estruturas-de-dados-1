@@ -1,19 +1,19 @@
-/* Solução para o problema 125. */
+/* Soluão para o problema 126. */
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct
+typedef struct 
 {
-    int *itens;
+    float *itens;
     int tamanho;
     int inicio;
     int final;
 } tFila;
 
 tFila* criar(int);
-int vazia(tFila*);
 int cheia(tFila*);
-void enfileirar(tFila*, int);
+int vazia(tFila*);
+void enfileirar(tFila*, float);
 void desenfileirar(tFila*);
 
 int main(void)
@@ -22,12 +22,12 @@ int main(void)
     scanf("%d", &n);
     tFila *fila = criar(n);
 
-    int valor;
+    float valor;
     char cmd;
     while ( scanf(" %c", &cmd) != EOF ) {
         switch (cmd) {
             case 'E':
-                scanf("%d", &valor);
+                scanf("%f", &valor);
                 enfileirar(fila, valor);
                 break;
             case 'D':
@@ -42,17 +42,11 @@ int main(void)
 tFila* criar(int n)
 {
     tFila *fila = (tFila*)malloc(sizeof(tFila));
-    fila->itens = (int*)malloc(n*sizeof(int));
+    fila->itens = (float*)malloc(n*sizeof(float));
     fila->tamanho = n;
     fila->inicio = -1;
     fila->final = -1;
     return fila;
-}
-
-int vazia(tFila *fila)
-{
-    return (fila->inicio == -1 && fila->final == -1) 
-            || fila->inicio > fila->final;
 }
 
 int cheia(tFila *fila)
@@ -60,7 +54,13 @@ int cheia(tFila *fila)
     return fila->final == fila->tamanho - 1;
 }
 
-void enfileirar(tFila *fila, int novo)
+int vazia(tFila *fila)
+{
+    return (fila->inicio == -1 && fila->final == -1)
+            || fila->inicio > fila->final;
+}
+
+void enfileirar(tFila *fila, float novo)
 {
     if (!cheia(fila)) {
         if (fila->inicio == -1)
@@ -72,7 +72,7 @@ void enfileirar(tFila *fila, int novo)
 void desenfileirar(tFila *fila)
 {
     if (!vazia(fila)) {
-        printf("%d\n", fila->itens[fila->inicio]);
+        printf("%.2f\n", fila->itens[fila->inicio]);
         if (fila->inicio == fila->final) {
             fila->inicio = -1;
             fila->final = -1;
